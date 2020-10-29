@@ -21,7 +21,14 @@ class App extends React.Component {
           completed: false,
         },
       ],
+      search: "",
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      todos: JSON.parse(localStorage.getItem("todos")),
+    });
   }
 
   handleComplete = (item) => {
@@ -39,6 +46,7 @@ class App extends React.Component {
     this.setState({
       todos: [...this.state.todos, item],
     });
+    localStorage.setItem("todos", JSON.stringify([...this.state.todos, item]));
   };
 
   clearCompleted = () => {
@@ -47,16 +55,39 @@ class App extends React.Component {
         return !todo.completed;
       }),
     });
+    localStorage.setItem(
+      "todos",
+      JSON.stringify(
+        this.state.todos.filter((todo) => {
+          return !todo.completed;
+        })
+      )
+    );
+  };
+
+  handleSearchChange = (e) => {
+    this.setState({
+      search: e.target.value,
+    });
   };
 
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-
+        <input
+          type="text"
+          name="search"
+          placeholder="Search Tasks..."
+          onChange={this.handleSearchChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") handleSearchChange();
+          }}
+        />
         <TodoList
           todoList={this.state.todos}
           handleComplete={this.handleComplete}
+          search={this.state.search}
         />
         <TodoForm addItem={this.addItem} clearCompleted={this.clearCompleted} />
       </div>
