@@ -80,9 +80,6 @@ class App extends React.Component {
           name="search"
           placeholder="Search Tasks..."
           onChange={this.handleSearchChange}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") handleSearchChange();
-          }}
         />
         <TodoList
           todoList={this.state.todos}
