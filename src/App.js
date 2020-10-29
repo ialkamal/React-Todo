@@ -1,6 +1,10 @@
 import React from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
+import { CardHeader, TextField } from "@material-ui/core";
+
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -26,9 +30,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      todos: JSON.parse(localStorage.getItem("todos")),
-    });
+    if (localStorage.getItem("todos")) {
+      this.setState({
+        todos: JSON.parse(localStorage.getItem("todos")),
+      });
+    }
   }
 
   handleComplete = (item) => {
@@ -74,19 +80,34 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h2>Welcome to your Todo App!</h2>
-        <input
-          type="text"
-          name="search"
-          placeholder="Search Tasks..."
-          onChange={this.handleSearchChange}
-        />
-        <TodoList
-          todoList={this.state.todos}
-          handleComplete={this.handleComplete}
-          search={this.state.search}
-        />
-        <TodoForm addItem={this.addItem} clearCompleted={this.clearCompleted} />
+        <Card style={{ width: "250px", margin: "200px auto" }}>
+          <CardHeader
+            style={{ textAlign: "center" }}
+            title="Welcome to your Todo App!"
+          />
+          <CardContent>
+            <TextField
+              type="text"
+              name="search"
+              placeholder="Search Tasks..."
+              onChange={this.handleSearchChange}
+            />
+          </CardContent>
+
+          <CardContent>
+            <TodoList
+              todoList={this.state.todos}
+              handleComplete={this.handleComplete}
+              search={this.state.search}
+            />
+          </CardContent>
+          <CardContent>
+            <TodoForm
+              addItem={this.addItem}
+              clearCompleted={this.clearCompleted}
+            />
+          </CardContent>
+        </Card>
       </div>
     );
   }

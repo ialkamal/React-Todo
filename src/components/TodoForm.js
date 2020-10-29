@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { TextField } from "@material-ui/core";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import ClearIcon from "@material-ui/icons/Clear";
 
 function TodoForm({ addItem, clearCompleted }) {
   const [task, setTask] = useState("");
@@ -14,7 +17,7 @@ function TodoForm({ addItem, clearCompleted }) {
 
   return (
     <div>
-      <input
+      <TextField
         type="text"
         placeholder="New Task..."
         value={task}
@@ -23,8 +26,8 @@ function TodoForm({ addItem, clearCompleted }) {
           if (e.key === "Enter") handleAdd();
         }}
       />
-      <button onClick={handleAdd}>Add</button>
-      <button onClick={clearCompleted}>Clear Completed</button>
+      <AddBoxIcon onClick={handleAdd} />
+      <ClearIcon onClick={clearCompleted} />
     </div>
   );
 }
